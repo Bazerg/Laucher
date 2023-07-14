@@ -18,28 +18,28 @@ namespace CanaryLauncherUpdate
 {
     public partial class MainWindow : Window
 	{
-		static string launcerConfigUrl = "https://raw.githubusercontent.com/dudantas/CanaryLauncherUpdate/improve-change-images-to-static/launcher_config.json";
+		static readonly string launcerConfigUrl = "https://raw.githubusercontent.com/Bazerg/Laucher/main/launcher_config.json";
 		// Load informations of launcher_config.json file
-		static ClientConfig clientConfig = ClientConfig.loadFromFile(launcerConfigUrl);
+		static readonly ClientConfig clientConfig = ClientConfig.LoadFromFile(launcerConfigUrl);
 
-		static string clientExecutableName = clientConfig.clientExecutable;
-		static string urlClient = clientConfig.newClientUrl;
-		static string programVersion = clientConfig.launcherVersion;
+		static readonly string clientExecutableName = clientConfig.ClientExecutable;
+		static readonly string urlClient = clientConfig.NewClientUrl;
+		static readonly string programVersion = clientConfig.LauncherVersion;
 
 		string newVersion = "";
 		bool clientDownloaded = false;
 		bool needUpdate = false;
 
 		static readonly HttpClient httpClient = new HttpClient();
-		WebClient webClient = new WebClient();
+        readonly WebClient webClient = new WebClient();
 
 		private string GetLauncherPath(bool onlyBaseDirectory = false)
 		{
-			string launcherPath = "";
-			if (string.IsNullOrEmpty(clientConfig.clientFolder) || onlyBaseDirectory) {
+            string launcherPath;
+            if (string.IsNullOrEmpty(clientConfig.ClientFolder) || onlyBaseDirectory) {
 				launcherPath = AppDomain.CurrentDomain.BaseDirectory.ToString();
 			} else {
-				launcherPath = AppDomain.CurrentDomain.BaseDirectory.ToString() + "/" + clientConfig.clientFolder;
+				launcherPath = AppDomain.CurrentDomain.BaseDirectory.ToString() + "/" + clientConfig.ClientFolder;
 			}
 			
 			return launcherPath;
@@ -53,14 +53,14 @@ namespace CanaryLauncherUpdate
 		static void CreateShortcut()
 		{
 			string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-			string shortcutPath = Path.Combine(desktopPath, clientConfig.clientFolder + ".lnk");
+			string shortcutPath = Path.Combine(desktopPath, clientConfig.ClientFolder + ".lnk");
 			Type t = Type.GetTypeFromProgID("WScript.Shell");
 			dynamic shell = Activator.CreateInstance(t);
 			var lnk = shell.CreateShortcut(shortcutPath);
 			try
 			{
 				lnk.TargetPath = Assembly.GetExecutingAssembly().Location.Replace(".dll", ".exe");
-				lnk.Description = clientConfig.clientFolder;
+				lnk.Description = clientConfig.ClientFolder;
 				lnk.Save();
 			}
 			finally
@@ -72,10 +72,11 @@ namespace CanaryLauncherUpdate
 		private void TibiaLauncher_Load(object sender, RoutedEventArgs e)
 		{
 
-			newVersion = clientConfig.clientVersion;
+			newVersion = clientConfig.ClientVersion;
 			progressbarDownload.Visibility = Visibility.Collapsed;
 			labelClientVersion.Visibility = Visibility.Collapsed;
 			labelDownloadPercent.Visibility = Visibility.Collapsed;
+
 
 			if (File.Exists(GetLauncherPath(true) + "/launcher_config.json"))
 			{
@@ -153,7 +154,7 @@ namespace CanaryLauncherUpdate
 			webClient.DownloadFileAsync(new Uri(urlClient), GetLauncherPath() + "/tibia.zip");
 		}
 
-		private void buttonPlay_Click(object sender, RoutedEventArgs e)
+		private void ButtonPlay_Click(object sender, RoutedEventArgs e)
 		{
 			if (needUpdate == true || !Directory.Exists(GetLauncherPath()))
 			{
@@ -203,11 +204,11 @@ namespace CanaryLauncherUpdate
 			buttonPlay.Background = new ImageBrush(new BitmapImage(new Uri(BaseUriHelper.GetBaseUri(this), "pack://application:,,,/Assets/button_play.png")));
 			buttonPlayIcon.Source = new BitmapImage(new Uri(BaseUriHelper.GetBaseUri(this), "pack://application:,,,/Assets/icon_play.png"));
 
-			if (clientConfig.replaceFolders)
+			if (clientConfig.ReplaceFolders)
 			{
-				foreach (ReplaceFolderName folderName in clientConfig.replaceFolderName)
+				foreach (ReplaceFolderName folderName in clientConfig.ReplaceFolderName)
 				{
-					string folderPath = Path.Combine(GetLauncherPath(), folderName.name);
+					string folderPath = Path.Combine(GetLauncherPath(), folderName.Name);
 					if (Directory.Exists(folderPath))
 					{
 						Directory.Delete(folderPath, true);
@@ -272,7 +273,7 @@ namespace CanaryLauncherUpdate
 				SizeSuffixes[mag]);
 		}
 
-		private void buttonPlay_MouseEnter(object sender, MouseEventArgs e)
+		private void ButtonPlay_MouseEnter(object sender, MouseEventArgs e)
 		{
 			if (File.Exists(GetLauncherPath() + "/launcher_config.json"))
 			{
@@ -292,7 +293,7 @@ namespace CanaryLauncherUpdate
 			}
 		}
 
-		private void buttonPlay_MouseLeave(object sender, MouseEventArgs e)
+		private void ButtonPlay_MouseLeave(object sender, MouseEventArgs e)
 		{
 			if (File.Exists(GetLauncherPath(true) + "/launcher_config.json"))
 			{

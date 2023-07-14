@@ -18,23 +18,23 @@ namespace CanaryLauncherUpdate
 {
 	public partial class SplashScreen : Window
 	{
-		static string launcerConfigUrl = "https://raw.githubusercontent.com/dudantas/CanaryLauncherUpdate/improve-change-images-to-static/launcher_config.json";
+		static readonly string launcerConfigUrl = "https://raw.githubusercontent.com/Bazerg/Laucher/main/launcher_config.json";
 		// Load informations of launcher_config.json file
-		static ClientConfig clientConfig = ClientConfig.loadFromFile(launcerConfigUrl);
+		static readonly ClientConfig clientConfig = ClientConfig.LoadFromFile(launcerConfigUrl);
 		
-		static string clientExecutableName = clientConfig.clientExecutable;
-		static string urlClient = clientConfig.newClientUrl;
+		static readonly string clientExecutableName = clientConfig.ClientExecutable;
+		static readonly string urlClient = clientConfig.NewClientUrl;
 
 		static readonly HttpClient httpClient = new HttpClient();
-		DispatcherTimer timer = new DispatcherTimer();
+        readonly DispatcherTimer timer = new DispatcherTimer();
 
 		private string GetLauncherPath(bool onlyBaseDirectory = false)
 		{
-			string launcherPath = "";
-			if (string.IsNullOrEmpty(clientConfig.clientFolder) || onlyBaseDirectory) {
+            string launcherPath;
+            if (string.IsNullOrEmpty(clientConfig.ClientFolder) || onlyBaseDirectory) {
 				launcherPath = AppDomain.CurrentDomain.BaseDirectory.ToString();
 			} else {
-				launcherPath = AppDomain.CurrentDomain.BaseDirectory.ToString() + "/" + clientConfig.clientFolder;
+				launcherPath = AppDomain.CurrentDomain.BaseDirectory.ToString() + "/" + clientConfig.ClientFolder;
 			}
 			
 			return launcherPath;
@@ -64,7 +64,7 @@ namespace CanaryLauncherUpdate
 
 		public SplashScreen()
 		{
-			string newVersion = clientConfig.clientVersion;
+			string newVersion = clientConfig.ClientVersion;
 			if (newVersion == null)
 			{
 				this.Close();
@@ -72,6 +72,7 @@ namespace CanaryLauncherUpdate
 
 			// Start the client if the versions are the same
 			if (File.Exists(GetLauncherPath(true) + "/launcher_config.json")) {
+				Console.WriteLine("porra");
 				string actualVersion = GetClientVersion(GetLauncherPath(true));
 				if (newVersion == actualVersion && Directory.Exists(GetLauncherPath()) ) {
 					StartClient();
@@ -79,12 +80,12 @@ namespace CanaryLauncherUpdate
 			}
 
 			InitializeComponent();
-			timer.Tick += new EventHandler(timer_SplashScreen);
+			timer.Tick += new EventHandler(Timer_SplashScreen);
 			timer.Interval = new TimeSpan(0, 0, 5);
 			timer.Start();
 		}
 
-		public async void timer_SplashScreen(object sender, EventArgs e)
+		public async void Timer_SplashScreen(object sender, EventArgs e)
 		{
 			var requestClient = new HttpRequestMessage(HttpMethod.Post, urlClient);
 			var response = await httpClient.SendAsync(requestClient);

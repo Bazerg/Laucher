@@ -6,16 +6,16 @@ namespace LauncherConfig
 {
     public class ClientConfig
 	{
-		public string clientVersion { get; set; }
-		public string launcherVersion { get; set; }
-		public bool replaceFolders { get; set; }
-		public ReplaceFolderName[] replaceFolderName { get; set; }
-		public string clientFolder { get; set; }
-		public string newClientUrl { get; set; }
-		public string newConfigUrl { get; set; }
-		public string clientExecutable { get; set; }
+		public string ClientVersion { get; set; }
+		public string LauncherVersion { get; set; }
+		public bool ReplaceFolders { get; set; }
+		public ReplaceFolderName[] ReplaceFolderName { get; set; }
+		public string ClientFolder { get; set; }
+		public string NewClientUrl { get; set; }
+		public string NewConfigUrl { get; set; }
+		public string ClientExecutable { get; set; }
 
-		public static ClientConfig loadFromFile(string url)
+		public static ClientConfig LoadFromFile(string url)
 		{
 			using (HttpClient client = new HttpClient())
 			{
@@ -28,6 +28,6 @@ namespace LauncherConfig
 
 	public class ReplaceFolderName
 	{
-		public string name { get; set; }
+		public string Name { get; set; }
 	}
 }

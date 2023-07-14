@@ -9,7 +9,7 @@ NOTE: Set it to "false" or only "" to not use the client folder, so everything w
 • executable The path to the client's executable file, represented as "bin/molten.exe"
 */
 {
-	"clientVersion": "12.91.12329",
+	"clientVersion": "13.17.13209",
 	"launcherVersion": "1.0",
 	"replaceFolders": false,
 	"replaceFolderName": [
@@ -23,7 +23,7 @@ NOTE: Set it to "false" or only "" to not use the client folder, so everything w
 			"name": "bin"
 		}
 	],
-	"clientFolder": "Tibia",
-	"newClientUrl" : "https://github.com/dudantas/CanaryLauncherUpdate/releases/download/download-files/client-to-update.zip",
+	"clientFolder": "Hardgaard",
+	"newClientUrl" : "https://github.com/Bazerg/Laucher/releases/download/init/Hardgaard.zip",
 	"clientExecutable": "client.exe"
 }
