@@ -72,7 +72,6 @@ namespace CanaryLauncherUpdate
 
 			// Start the client if the versions are the same
 			if (File.Exists(GetLauncherPath(true) + "/launcher_config.json")) {
-				Console.WriteLine("porra");
 				string actualVersion = GetClientVersion(GetLauncherPath(true));
 				if (newVersion == actualVersion && Directory.Exists(GetLauncherPath()) ) {
 					StartClient();
